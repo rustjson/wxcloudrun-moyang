@@ -36,7 +36,7 @@ function TablePage() {
     const fetchData = async () => {
       try {
         setLoading(true);
-        fetch("/api/data")
+        fetch("/api/orders")
           .then((res) => {
             return res.json();
           })

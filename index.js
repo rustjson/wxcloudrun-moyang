@@ -21,6 +21,7 @@ app.get("/", async (req, res) => {
 });
 
 app.get("/api/me", async (req, res) => {
+  console.log("headers", req.headers);
   const resp = await fetch(
     `http://api.weixin.qq.com/wxa/getopendata?openid=${req.headers["x-wx-openid"]}`,
     {
@@ -56,8 +57,9 @@ app.post("/api/in", async (req, res) => {
 
 app.get("/api/orders", async (req, res) => {
   const userId = req.headers["x-userid"];
-  if (userId != "oxnqE6SuQgVKtePpTy-wAhTu9Am4") {
+  if (userId !== "oxnqE6SuQgVKtePpTy-wAhTu9Am4") {
     res.send({ errcode: 10 });
+    return;
   }
   const data = Order.findAll();
   res.send({
