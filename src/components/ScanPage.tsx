@@ -40,7 +40,22 @@ function ScanPage() {
           if (res.resultStr.split(",")[0] !== "CODE_128") {
             refAudioRetry?.current?.play();
           } else {
-            fetch(`/api/in?orderId=${res.resultStr}&mode=${mode}`)
+            // fetch(`/api/in?orderId=${res.resultStr}&mode=${mode}`)
+            window.app
+              .callContainer({
+                config: {
+                  env: "prod-1goss70m27b551ae",
+                },
+                path: "/api/in",
+                header: {
+                  "X-WX-SERVICE": "moyang",
+                  "content-type": "application/json",
+                },
+                method: "POST",
+                data: JSON.stringify({
+                  orderId: res.resultStr.split(",")[1],
+                }),
+              })
               .then((res) => res.json())
               .then((res) => {
                 console.log("resp ==== ", res);

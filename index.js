@@ -43,13 +43,14 @@ app.get("/api/me", async (req, res) => {
 
 // 更新计数
 app.post("/api/in", async (req, res) => {
-  console.log("req.header", req.headers["x-userid"]);
-  const orderId = req.params.orderId;
+  const userId = req.headers["x-userid"];
+  const orderId = req.body?.orderId;
+  console.log("orderid = ", orderId);
   if (!orderId) {
     res.send({ errcode: 1, errmsg: "order id wrong" });
   }
   try {
-    await Order.create({ id: orderId });
+    await Order.create({ order_id: orderId, created_by_user_id: userId });
     res.send({
       errcode: "ok",
     });

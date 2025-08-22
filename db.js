@@ -15,9 +15,16 @@ const sequelize = new Sequelize("moyang", MYSQL_USERNAME, MYSQL_PASSWORD, {
 // 定义数据模型
 const Order = sequelize.define("Order", {
   id: {
-    type: DataTypes.TEXT,
+    type: DataTypes.INTEGER,
     allowNull: false,
     primaryKey: true,
+    autoIncrement: true,
+  },
+  order_id: {
+    type: DataTypes.CHAR,
+  },
+  created_by_user_id: {
+    type: DataTypes.CHAR,
   },
   created_at: {
     type: DataTypes.DATE,
