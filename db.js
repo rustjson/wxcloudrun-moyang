@@ -17,6 +17,7 @@ const Order = sequelize.define("Order", {
   id: {
     type: DataTypes.TEXT,
     allowNull: false,
+    primaryKey: true,
   },
   created_at: {
     type: DataTypes.DATE,
