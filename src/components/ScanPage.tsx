@@ -210,7 +210,7 @@ function ScanPage() {
         </Form>
       )}
       <div style={{ padding: 0, margin: 0 }}>
-        {isWeChatSDKReady && (!authState || !authState.authenticated) && (
+        {/* {isWeChatSDKReady && (!authState || !authState.authenticated) && (
           <ButtonArea>
             <Button
               style={{ margin: 0, padding: 0 }}
@@ -226,7 +226,7 @@ function ScanPage() {
               登陆
             </Button>
           </ButtonArea>
-        )}
+        )} */}
         {isWeChatSDKReady && authState?.authenticated && (
           <>
             <h3 style={{ textAlign: "center", marginTop: "4px" }}>
