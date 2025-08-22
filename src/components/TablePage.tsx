@@ -54,7 +54,7 @@ function TablePage() {
           // })
           .then(({ data }) => {
             console.log("data", data.data);
-            setData(data);
+            setData(data.data);
           });
       } catch (error) {
         console.error("Error fetching data:", error);
