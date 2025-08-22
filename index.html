@@ -10,7 +10,7 @@
     <div id="root"></div>
     <script
       type="text/javascript"
-      src="http://res2.wx.qq.com/open/js/jweixin-1.6.0.js"
+      src="https://res2.wx.qq.com/open/js/jweixin-1.6.0.js"
     ></script>
     <script
       type="text/javascript"
@@ -51,7 +51,7 @@
         signature: object[string] // envid、signature参数存在并成功初始化后，返回的签名信息
         info: string              // 如果snsapi_userinfo登录，则会返回用户信息的cloudID，可以使用转换接口获取信息，见下文
       */
-        console.log(result);
+        console.log("mplogin.result", result);
         if (result.ret === 0) {
           // ret为0时，代表登录已经完成，可以进行业务操作
           window.app = result.cloud; // result.cloud 返回初始化可操作的cloud函数对象，将其放置全局
@@ -65,7 +65,7 @@
             },
             // 其余参数同 wx.request
           });
-          console.log(callres);
+          console.log("callres./api/count", callres);
 
           // 使用微信公众号SDK，开始签名，签名信息在result.signature中
 
@@ -84,7 +84,12 @@
             timestamp: result.signature.timestamp + "", // 时间戳，从返回result.signature中获取
             nonceStr: result.signature.nonceStr, // 随机字符串，从返回result.signature中获取
             signature: result.signature.signature, // 签名，从返回result.signature中获取
-            jsApiList: ["getNetworkType"], // 注册的api列表
+            jsApiList: ["getNetworkType", "scanQRCode"], // 注册的api列表
+            openTagList: [
+              "wx-open-launch-weapp",
+              "wx-open-subscribe",
+              "wx-open-audio",
+            ],
           });
         } else {
           // ret不为0时，代表登录出现错误，一般出现在开发调试中，正式使用一般只有2-系统拦截错误

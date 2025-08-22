@@ -6,7 +6,7 @@ const { MYSQL_USERNAME, MYSQL_PASSWORD, MYSQL_ADDRESS = "" } = process.env;
 console.log("xxxxx MYSQL_ADDRESS = ", MYSQL_ADDRESS);
 const [host, port] = MYSQL_ADDRESS.split(":");
 
-const sequelize = new Sequelize("nodejs_demo", MYSQL_USERNAME, MYSQL_PASSWORD, {
+const sequelize = new Sequelize("golang_demo", MYSQL_USERNAME, MYSQL_PASSWORD, {
   host,
   port,
   dialect: "mysql" /* one of 'mysql' | 'mariadb' | 'postgres' | 'mssql' */,
