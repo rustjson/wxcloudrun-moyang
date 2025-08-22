@@ -23,7 +23,7 @@ app.get("/", async (req, res) => {
 app.get("/api/me", async (req, res) => {
   console.log("headers", req.headers);
   const resp = await fetch(
-    `http://api.weixin.qq.com/wxa/getopendata?openid=${req.headers["x-wx-openid"]}`,
+    `http://api.weixin.qq.com/cgi-bin/user/info?openid=${req.headers["x-wx-openid"]}`,
     {
       method: "POST",
       body: JSON.stringify({
