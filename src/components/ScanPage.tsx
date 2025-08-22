@@ -86,6 +86,7 @@ function ScanPage() {
         method: "GET",
       })
       .then(({ data }) => {
+        console.log("/api/me.data", data);
         setAuthState(data);
       });
     // fetch("/api/me").then(async (res) => {

@@ -56,23 +56,6 @@
           // ret为0时，代表登录已经完成，可以进行业务操作
           window.app = result.cloud; // result.cloud 返回初始化可操作的cloud函数对象，将其放置全局
 
-          // 向云托管服务发起调用
-          const callres = await window.app.callContainer({
-            config: {
-              env: "prod-1goss70m27b551ae",
-            },
-            path: "/api/count",
-            header: {
-              "X-WX-SERVICE": "moyang",
-              "content-type": "application/json",
-            },
-            method: "POST",
-            data: '{"action": "inc"}',
-          });
-          console.log("callres./api/count", callres);
-
-          // 使用微信公众号SDK，开始签名，签名信息在result.signature中
-
           // 监听签名注册成功
           wx.ready(function () {
             // 发起网络类型获取，只是测试，可以替换自己想要的API方法
