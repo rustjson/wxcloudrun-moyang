@@ -73,11 +73,27 @@ function ScanPage() {
   };
 
   const apiMe = async () => {
-    fetch("/api/me").then(async (res) => {
-      const respJson = await res.json();
-      console.log("api/me.resp", respJson);
-      setAuthState(respJson);
-    });
+    window.app
+      .callContainer({
+        config: {
+          env: "prod-1goss70m27b551ae",
+        },
+        path: "/api/me",
+        header: {
+          "X-WX-SERVICE": "moyang",
+          "content-type": "application/json",
+        },
+        method: "GET",
+      })
+      .then((res) => {
+        console.log("eeeeeeee", res);
+        // setAuthState(respJson);
+      });
+    // fetch("/api/me").then(async (res) => {
+    //   const respJson = await res.json();
+    //   console.log("api/me.resp", respJson);
+    //   setAuthState(respJson);
+    // });
   };
   useEffect(() => {
     apiMe();
