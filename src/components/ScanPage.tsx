@@ -146,9 +146,6 @@ function ScanPage() {
                 const userinfoUrl = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${
                   import.meta.env.VITE_APP_ID
                 }&redirect_uri=${redirectUri}&response_type=code&scope=snsapi_userinfo&state=123133#wechat_redirect`;
-                // const baseUrl = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${
-                //   import.meta.env.VITE_APP_ID
-                // }&redirect_uri=${redirectUri}&response_type=code&scope=snsapi_base&state=123133#wechat_redirect`;
                 window.location.href = userinfoUrl;
               }}
             >
