@@ -48,12 +48,21 @@ app.post("/api/in", async (req, res) => {
     return;
   }
   try {
-    await Order.create({ order_id: orderId, created_by_user_id: userId });
+    const inserted = await Order.create({
+      order_id: orderId,
+      created_by_user_id: userId,
+    });
+    console.log("inserted = ", inserted);
     res.send({
       errcode: "ok",
+      data: order,
     });
   } catch (e) {
-    console.log("insert error", e);
+    console.error("insert error", e);
+    res.status(500).send({
+      errcode: "error",
+      errmsg: e.message,
+    });
   }
 });
 
@@ -63,11 +72,19 @@ app.get("/api/orders", async (req, res) => {
     res.send({ errcode: 10 });
     return;
   }
-  const data = Order.findAll();
-  res.send({
-    errcode: "ok",
-    data,
-  });
+  try {
+    const data = await Order.findAll();
+    res.send({
+      errcode: "ok",
+      data,
+    });
+  } catch (e) {
+    console.error("Error fetching orders:", e);
+    res.status(500).send({
+      errcode: "error",
+      errmsg: e.message,
+    });
+  }
 });
 
 // 获取计数

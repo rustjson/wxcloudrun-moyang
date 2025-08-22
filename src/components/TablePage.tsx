@@ -36,10 +36,22 @@ function TablePage() {
     const fetchData = async () => {
       try {
         setLoading(true);
-        fetch("/api/orders")
-          .then((res) => {
-            return res.json();
+        // fetch("/api/orders")
+        window.app
+          .callContainer({
+            config: {
+              env: "prod-1goss70m27b551ae",
+            },
+            path: "/api/orders",
+            header: {
+              "X-WX-SERVICE": "moyang",
+              "content-type": "application/json",
+            },
+            method: "GET",
           })
+          // .then((res) => {
+          //   return res.json();
+          // })
           .then(({ data }) => {
             console.log("data", data);
             setData(data);
