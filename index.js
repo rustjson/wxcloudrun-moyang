@@ -49,8 +49,8 @@ app.post("/api/in", async (req, res) => {
   }
   try {
     const inserted = await Order.create({
-      order_id: orderId,
-      created_by_user_id: userId,
+      orderId: orderId,
+      createdByUserId: userId,
     });
     console.log("inserted = ", inserted);
     res.send({

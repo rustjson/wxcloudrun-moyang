@@ -11,10 +11,10 @@ import "react-weui/build/packages/react-weui.css";
 
 interface TableData {
   id: number;
-  order_id: string;
-  user_id: string;
+  orderId: string;
+  createdByUserId: string;
   status: string;
-  created_at: number; // timestamp
+  createdAt: number; // timestamp
 }
 
 function TablePage() {
@@ -53,7 +53,7 @@ function TablePage() {
           //   return res.json();
           // })
           .then(({ data }) => {
-            console.log("data", data);
+            console.log("data", data.data);
             setData(data);
           });
       } catch (error) {
@@ -98,10 +98,10 @@ function TablePage() {
               />
             </CellHeader> */}
             <CellBody>
-              {row.order_id?.substring(0, 2)}***
-              {row.order_id?.slice(-5)}
+              {row.orderId?.substring(0, 2)}***
+              {row.orderId?.slice(-5)}
             </CellBody>
-            <CellFooter>{formatDate(row.created_at)}</CellFooter>
+            <CellFooter>{formatDate(row.createdAt)}</CellFooter>
           </Cell>
         ))}
       </Cells>

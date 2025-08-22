@@ -20,14 +20,11 @@ const Order = sequelize.define("Order", {
     primaryKey: true,
     autoIncrement: true,
   },
-  order_id: {
+  orderId: {
     type: DataTypes.CHAR,
   },
-  created_by_user_id: {
+  createdByUserId: {
     type: DataTypes.CHAR,
-  },
-  created_at: {
-    type: DataTypes.DATE,
   },
 });
 
