@@ -63,7 +63,7 @@
             header: {
               "X-WX-SERVICE": "moyang", // xxx中填入服务名称（微信云托管 - 服务管理 - 服务列表 - 服务名称）
             },
-            // 其余参数同 wx.request
+            data: '{"action": "inc"}',
           });
           console.log("callres./api/count", callres);
 
@@ -74,7 +74,7 @@
             // 发起网络类型获取，只是测试，可以替换自己想要的API方法
             wx.getNetworkType({
               success: function (res) {
-                window.alert("当前设备网络类型：" + res.networkType);
+                console.log("当前设备网络类型：" + res.networkType);
               },
             });
           });
