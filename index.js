@@ -20,6 +20,23 @@ app.get("/", async (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));
 });
 
+app.get("/api/me", async (req, res) => {
+  const resp = await fetch(
+    `http://api.weixin.qq.com/wxa/getopendata?openid=${req.headers["x-wx-openid"]}`,
+    {
+      method: "POST",
+      body: JSON.stringify({
+        cloudid_list: [req.body.cloudid], // 传入需要换取的 CloudID
+      }),
+    }
+  );
+  const respJson = await resp.json();
+  res.send({
+    authenticated: true,
+    user: respJson,
+  });
+});
+
 // 更新计数
 app.post("/api/in", async (req, res) => {
   console.log("req.header", req.headers["x-userid"]);
