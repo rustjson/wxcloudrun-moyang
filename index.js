@@ -26,12 +26,9 @@ app.get("/scan", async (req, res) => {
 app.get("/api/me", async (req, res) => {
   console.log("headers", req.headers);
   const resp = await fetch(
-    `http://api.weixin.qq.com/cgi-bin/user/info?openid=${req.headers["x-wx-openid"]}`,
+    `http://api.weixin.qq.com/cgi-bin/user/info?openid=${req.headers["x-wx-openid"]}&lang=LANG`,
     {
       method: "POST",
-      body: JSON.stringify({
-        cloudid_list: [req.body.cloudid], // 传入需要换取的 CloudID
-      }),
     }
   );
   const respJson = await resp.json();
