@@ -20,6 +20,7 @@ app.get("/", async (req, res) => {
 
 // 更新计数
 app.post("/api/count", async (req, res) => {
+  console.log("req.header", req.headers);
   const { action } = req.body;
   if (action === "inc") {
     await Counter.create();

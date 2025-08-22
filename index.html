@@ -58,11 +58,15 @@
 
           // 向云托管服务发起调用
           const callres = await window.app.callContainer({
-            path: "/api/count", // 填入业务自定义路径和参数，根目录，就是 /
-            method: "POST", // 按照自己的业务开发，选择对应的方法
-            header: {
-              "X-WX-SERVICE": "moyang", // xxx中填入服务名称（微信云托管 - 服务管理 - 服务列表 - 服务名称）
+            config: {
+              env: "prod-1goss70m27b551ae",
             },
+            path: "/api/count",
+            header: {
+              "X-WX-SERVICE": "moyang",
+              "content-type": "application/json",
+            },
+            method: "POST",
             data: '{"action": "inc"}',
           });
           console.log("callres./api/count", callres);
