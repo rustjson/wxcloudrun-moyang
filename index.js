@@ -19,6 +19,9 @@ console.log("process.env", process.env);
 app.get("/", async (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));
 });
+app.get("/scan", async (req, res) => {
+  res.sendFile(path.join(__dirname, "index.html"));
+});
 
 app.get("/api/me", async (req, res) => {
   console.log("headers", req.headers);
