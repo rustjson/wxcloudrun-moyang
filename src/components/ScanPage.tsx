@@ -28,6 +28,7 @@ function ScanPage() {
   const refAudioOutOk = useRef<HTMLAudioElement>(null);
   const refAudioRepeated = useRef<HTMLAudioElement>(null);
   const refAudioRetry = useRef<HTMLAudioElement>(null);
+  const sub = useRef(null);
 
   const scanQRCode = () => {
     wx.scanQRCode({
@@ -114,7 +115,6 @@ function ScanPage() {
   }, [window.app]);
 
   const [autoMode, setAutoMode] = useState(false);
-
   return (
     <div className="scan-container">
       {authState?.authenticated === true && (
@@ -206,8 +206,19 @@ function ScanPage() {
         <audio src={inOkAudio} ref={refAudioInOk} />
         <audio src={repeatedAudio} ref={refAudioRepeated} />
         <audio src={retryAudio} ref={refAudioRetry} />
-        {/* <wx-open-subscribe
-          template="-oEA4rcjVdStJSTQRatoq9H1xutyAJY0GLDhc6Iiom8"
+        <Button
+          onClick={() => {
+            const redirectUri =
+              "http%3A%2F%2F192.168.61.198%3A5173%2Fapi%2Fweixin-login-cb";
+            window.location.href = `https://mp.weixin.qq.com/mp/subscribemsg?action=get_confirm&appid=${
+              import.meta.env.VITE_APP_ID
+            }&scene=1000&template_id=ufW58tR7RqJhMNQrg6JmumGMWDraLUxe6BxjZvweSvU&redirect_url=${redirectUri}`;
+          }}
+        >
+          SUBBB
+        </Button>
+        <wx-open-subscribe
+          template="ufW58tR7RqJhMNQrg6JmumGMWDraLUxe6BxjZvweSvU"
           id="subscribe-btn"
           ref={sub}
         >
@@ -217,7 +228,7 @@ function ScanPage() {
           <script type="text/wxtag-template">
             <button>播放</button>
           </script>
-        </wx-open-subscribe> */}
+        </wx-open-subscribe>
       </div>
     </div>
   );
