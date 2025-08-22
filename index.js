@@ -55,7 +55,7 @@ app.post("/api/in", async (req, res) => {
     console.log("inserted = ", inserted);
     res.send({
       errcode: "ok",
-      data: order,
+      data: inserted,
     });
   } catch (e) {
     console.error("insert error", e);

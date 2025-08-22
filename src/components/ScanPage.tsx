@@ -87,8 +87,8 @@ function ScanPage() {
   };
 
   const apiMe = async () => {
-    window.app
-      .callContainer({
+    window?.app
+      ?.callContainer({
         config: {
           env: "prod-1goss70m27b551ae",
         },
@@ -111,7 +111,7 @@ function ScanPage() {
   };
   useEffect(() => {
     apiMe();
-  }, []);
+  }, [window.app]);
 
   const [autoMode, setAutoMode] = useState(false);
 
