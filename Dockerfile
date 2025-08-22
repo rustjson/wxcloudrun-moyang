@@ -4,31 +4,24 @@ FROM node:20-alpine
 # 容器默认时区为UTC，如需使用上海时间请启用以下时区设置命令
 # RUN apk add tzdata && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo Asia/Shanghai > /etc/timezone
 
-# 使用 HTTPS 协议访问容器云调用证书安装
-RUN apk add ca-certificates
+# 启用 corepack 并激活 pnpm，避免 shell 重新加载问题
+RUN corepack enable && corepack prepare pnpm@10.8.1 --activate
 
-# 安装依赖包，如需其他依赖包，请到alpine依赖包管理(https://pkgs.alpinelinux.org/packages?name=php8*imagick*&branch=v3.13)查找。
-# 选用国内镜像源以提高下载速度
-RUN apk add --update --no-cache ca-certificates \
-&& corepack enable
 
 # # 指定工作目录
 WORKDIR /app
-
-# 拷贝包管理文件
-COPY package*.json /app/
 
 # pnpm 源，选用国内镜像源以提高下载速度
 RUN pnpm config set registry https://mirrors.cloud.tencent.com/npm/
 # RUN pnpm config set registry https://registry.npm.taobao.org/
 
 
-# 将当前目录（dockerfile所在目录）下所有文件都拷贝到工作目录下（.dockerignore中文件除外）
+## 优化缓存：先复制包管理文件再安装依赖
+COPY package*.json /app/
+RUN pnpm install --frozen-lockfile || pnpm install
+
+# 再复制源码
 COPY . /app
-
-# pnpm 安装依赖
-
-RUN pnpm install
 
 # 构建前端
 RUN pnpm build
