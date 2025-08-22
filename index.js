@@ -7,6 +7,7 @@ const { init: initDB, Counter } = require("./db");
 const logger = morgan("tiny");
 
 const app = express();
+app.use(express.static("public"));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cors());
@@ -35,6 +36,7 @@ app.post("/api/count", async (req, res) => {
 
 // 获取计数
 app.get("/api/count", async (req, res) => {
+  console.log("req.header", req.headers);
   const result = await Counter.count();
   res.send({
     code: 0,

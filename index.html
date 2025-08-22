@@ -30,7 +30,7 @@
           appid: appId, // 必填，公众号appid，将以此appid名义进行请求
           // redirect: '',                      // 选填，授权成功后路由的地址，目标地址应能处理授权参数，不填为当前页面
           envid: "prod-1goss70m27b551ae", // 选填，资源方微信云托管环境，如果传递此参数则会返回初始化的cloud操作对象
-          resourceAppid: "wxaa02testenvid99", // 选填，如果是资源复用模式，需要填环境共享下资源方微信账号
+          // resourceAppid: "wxaa02testenvid99", // 选填，如果是资源复用模式，需要填环境共享下资源方微信账号
           signature: window.location.href, // 选填，如果需要微信SDK的API方法，则填写要使用的地址，会返回signature签名对象，envid参数不填则无效。
           // region: ''                         // 选填，环境的地域，可选ap-guangzhou、ap-beijing，不填默认为ap-shanghai
           // traceUser:false                    // 选填，默认true，是否在将用户访问记录到用户管理中，非上海地域请设置成false
@@ -61,7 +61,7 @@
             path: "/api/count", // 填入业务自定义路径和参数，根目录，就是 /
             method: "POST", // 按照自己的业务开发，选择对应的方法
             header: {
-              "X-WX-SERVICE": "golang-1q2h-001", // xxx中填入服务名称（微信云托管 - 服务管理 - 服务列表 - 服务名称）
+              "X-WX-SERVICE": "moyang", // xxx中填入服务名称（微信云托管 - 服务管理 - 服务列表 - 服务名称）
             },
             // 其余参数同 wx.request
           });
