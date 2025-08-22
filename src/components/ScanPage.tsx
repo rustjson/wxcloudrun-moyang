@@ -56,7 +56,6 @@ function ScanPage() {
                   orderId: res.resultStr.split(",")[1],
                 }),
               })
-              .then((res) => res.json())
               .then((res) => {
                 console.log("resp ==== ", res);
                 if (res.errcode === "ok") {

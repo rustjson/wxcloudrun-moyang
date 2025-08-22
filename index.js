@@ -42,9 +42,10 @@ app.get("/api/me", async (req, res) => {
 app.post("/api/in", async (req, res) => {
   const userId = req.headers["x-userid"];
   const orderId = req.body?.orderId;
-  console.log("orderid = ", orderId);
+  console.log("=====body = ", req.body);
   if (!orderId) {
     res.send({ errcode: 1, errmsg: "order id wrong" });
+    return;
   }
   try {
     await Order.create({ order_id: orderId, created_by_user_id: userId });
