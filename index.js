@@ -84,7 +84,11 @@ app.post("/api/in", async (req, res) => {
 
 app.get("/api/orders", async (req, res) => {
   const userId = req.headers["x-userid"];
-  if (userId !== "oxnqE6SuQgVKtePpTy-wAhTu9Am4") {
+  if (
+    !["oxnqE6feAr0Kv9uB2pvY6i-3PjhY", "oxnqE6SuQgVKtePpTy-wAhTu9Am4"].includes(
+      userId
+    )
+  ) {
     res.send({ errcode: 10 });
     return;
   }
