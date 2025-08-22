@@ -2,12 +2,12 @@ const path = require("path");
 const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
-const { init: initDB, Counter } = require("./db");
+const { init: initDB, Order } = require("./db");
 
 const logger = morgan("tiny");
 
 const app = express();
-app.use(express.static("public"));
+app.use(express.static("dist"));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cors());
@@ -19,19 +19,31 @@ app.get("/", async (req, res) => {
 });
 
 // 更新计数
-app.post("/api/count", async (req, res) => {
-  console.log("req.header", req.headers);
-  const { action } = req.body;
-  if (action === "inc") {
-    await Counter.create();
-  } else if (action === "clear") {
-    await Counter.destroy({
-      truncate: true,
-    });
+app.post("/api/in", async (req, res) => {
+  console.log("req.header", req.headers["x-userid"]);
+  const orderId = req.params.orderId;
+  if (!orderId) {
+    res.send({ errcode: 1, errmsg: "order id wrong" });
   }
+  try {
+    await Order.create({ id: orderId });
+    res.send({
+      errcode: "ok",
+    });
+  } catch (e) {
+    console.log("insert error", e);
+  }
+});
+
+app.get("/api/orders", async (req, res) => {
+  const userId = req.headers["x-userid"];
+  if (userId != "oxnqE6SuQgVKtePpTy-wAhTu9Am4") {
+    res.send({ errcode: 10 });
+  }
+  const data = Order.findAll();
   res.send({
-    code: 0,
-    data: await Counter.count(),
+    errcode: "ok",
+    data,
   });
 });
 
@@ -43,13 +55,6 @@ app.get("/api/count", async (req, res) => {
     code: 0,
     data: result,
   });
-});
-
-// 小程序调用，获取微信 Open ID
-app.get("/api/wx_openid", async (req, res) => {
-  if (req.headers["x-wx-source"]) {
-    res.send(req.headers["x-wx-openid"]);
-  }
 });
 
 const port = process.env.PORT || 80;

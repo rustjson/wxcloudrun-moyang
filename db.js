@@ -6,28 +6,30 @@ const { MYSQL_USERNAME, MYSQL_PASSWORD, MYSQL_ADDRESS = "" } = process.env;
 console.log("xxxxx MYSQL_ADDRESS = ", MYSQL_ADDRESS);
 const [host, port] = MYSQL_ADDRESS.split(":");
 
-const sequelize = new Sequelize("golang_demo", MYSQL_USERNAME, MYSQL_PASSWORD, {
+const sequelize = new Sequelize("moyang", MYSQL_USERNAME, MYSQL_PASSWORD, {
   host,
   port,
   dialect: "mysql" /* one of 'mysql' | 'mariadb' | 'postgres' | 'mssql' */,
 });
 
 // 定义数据模型
-const Counter = sequelize.define("Counter", {
-  count: {
-    type: DataTypes.INTEGER,
+const Order = sequelize.define("Order", {
+  id: {
+    type: DataTypes.TEXT,
     allowNull: false,
-    defaultValue: 1,
+  },
+  created_at: {
+    type: DataTypes.DATE,
   },
 });
 
 // 数据库初始化方法
 async function init() {
-  await Counter.sync({ alter: true });
+  await Order.sync({ alter: true });
 }
 
 // 导出初始化方法和模型
 module.exports = {
   init,
-  Counter,
+  Order,
 };
