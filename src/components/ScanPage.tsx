@@ -56,9 +56,9 @@ function ScanPage() {
                   orderId: res.resultStr.split(",")[1],
                 }),
               })
-              .then((res) => {
-                console.log("resp ==== ", res);
-                if (res.errcode === "ok") {
+              .then(({ data }) => {
+                console.log("resp ==== ", data);
+                if (data.errcode === "ok") {
                   if (mode === "in") {
                     refAudioInOk.current?.play();
                     // const utterance = new SpeechSynthesisUtterance(
@@ -69,7 +69,7 @@ function ScanPage() {
                     refAudioOutOk.current?.play();
                   }
                 }
-                if (res.errcode === "repeated") {
+                if (data.errcode === "repeated") {
                   refAudioRepeated.current?.play();
                 }
               });
