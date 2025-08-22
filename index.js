@@ -48,10 +48,26 @@ app.post("/api/in", async (req, res) => {
     return;
   }
   try {
+    // Check for duplicate orderId first
+    const existingOrder = await Order.findOne({
+      where: { orderId: orderId },
+    });
+
+    if (existingOrder) {
+      res.send({
+        errcode: "repeated",
+        errmsg: "Order ID already exists",
+        data: existingOrder,
+      });
+      return;
+    }
+
+    // If no duplicate found, create new order
     const inserted = await Order.create({
       orderId: orderId,
       createdByUserId: userId,
     });
+
     console.log("inserted = ", inserted);
     res.send({
       errcode: "ok",
