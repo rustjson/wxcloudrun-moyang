@@ -15,8 +15,46 @@ import {
 } from "react-weui";
 import "react-weui/build/packages/react-weui.css";
 
+// Custom hook to handle WeChat SDK initialization using events
+const useWeChatSDK = () => {
+  const [isReady, setIsReady] = useState(false);
+
+  useEffect(() => {
+    // Check if already ready
+    if (window?.app) {
+      setIsReady(true);
+      return;
+    }
+
+    // Listen for the WeChat SDK ready event
+    const handleSDKReady = (event: CustomEvent) => {
+      console.log("WeChat SDK ready event received", event.detail);
+      setIsReady(true);
+    };
+
+    window.addEventListener(
+      "wechat-sdk-ready",
+      handleSDKReady as EventListener
+    );
+
+    return () => {
+      window.removeEventListener(
+        "wechat-sdk-ready",
+        handleSDKReady as EventListener
+      );
+    };
+  }, []);
+
+  return { isReady };
+};
+
 function ScanPage() {
-  const [mode, setMode] = useState("in"); // in, out
+  const [mode, setMode] = useState(() => {
+    // Read mode from URL query parameter, default to "in"
+    const urlParams = new URLSearchParams(window.location.search);
+    const modeParam = urlParams.get("mode");
+    return modeParam === "out" ? "out" : "in";
+  }); // in, out
   const [scanRes, setScanRes] = useState<{ resultStr: string }>({
     resultStr: "",
   });
@@ -29,6 +67,9 @@ function ScanPage() {
   const refAudioRepeated = useRef<HTMLAudioElement>(null);
   const refAudioRetry = useRef<HTMLAudioElement>(null);
   const sub = useRef(null);
+
+  // Use the custom hook to check if WeChat SDK is ready
+  const { isReady: isWeChatSDKReady } = useWeChatSDK();
 
   const scanQRCode = () => {
     wx.scanQRCode({
@@ -88,6 +129,7 @@ function ScanPage() {
   };
 
   const apiMe = async () => {
+    console.log("will call /api/me, window.app available:", !!window?.app);
     window?.app
       ?.callContainer({
         config: {
@@ -104,19 +146,21 @@ function ScanPage() {
         console.log("/api/me.data", data);
         setAuthState(data);
       });
-    // fetch("/api/me").then(async (res) => {
-    //   const respJson = await res.json();
-    //   console.log("api/me.resp", respJson);
-    //   setAuthState(respJson);
-    // });
   };
   useEffect(() => {
-    apiMe();
-  }, [window.app]);
+    if (isWeChatSDKReady) {
+      apiMe();
+    }
+  }, [isWeChatSDKReady]);
 
   const [autoMode, setAutoMode] = useState(false);
   return (
     <div className="scan-container">
+      {!isWeChatSDKReady && (
+        <div style={{ textAlign: "center", padding: "20px" }}>
+          <p>正在初始化微信SDK...</p>
+        </div>
+      )}
       {authState?.authenticated === true && (
         <div style={{ display: "flex", alignItems: "center" }}>
           <a href="#" target="_blank">
@@ -166,7 +210,7 @@ function ScanPage() {
         </Form>
       )}
       <div style={{ padding: 0, margin: 0 }}>
-        {(!authState || !authState.authenticated) && (
+        {isWeChatSDKReady && (!authState || !authState.authenticated) && (
           <ButtonArea>
             <Button
               style={{ margin: 0, padding: 0 }}
@@ -183,7 +227,7 @@ function ScanPage() {
             </Button>
           </ButtonArea>
         )}
-        {authState?.authenticated && (
+        {isWeChatSDKReady && authState?.authenticated && (
           <>
             <h3 style={{ textAlign: "center", marginTop: "4px" }}>
               {scanRes?.resultStr?.split(",")?.[1]}
@@ -192,7 +236,7 @@ function ScanPage() {
         )}
 
         {/* <p>welcome to use 小暮陽</p> */}
-        {authState?.authenticated && (
+        {isWeChatSDKReady && authState?.authenticated && (
           <ButtonArea>
             <Button
               //button to display toptips
@@ -206,7 +250,7 @@ function ScanPage() {
         <audio src={inOkAudio} ref={refAudioInOk} />
         <audio src={repeatedAudio} ref={refAudioRepeated} />
         <audio src={retryAudio} ref={refAudioRetry} />
-        <Button
+        {/* <Button
           onClick={() => {
             const redirectUri =
               "http%3A%2F%2F192.168.61.198%3A5173%2Fapi%2Fweixin-login-cb";
@@ -228,7 +272,7 @@ function ScanPage() {
           <script type="text/wxtag-template">
             <button>播放</button>
           </script>
-        </wx-open-subscribe>
+        </wx-open-subscribe> */}
       </div>
     </div>
   );
